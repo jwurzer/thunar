@@ -29,12 +29,12 @@
 #include <string.h>
 #endif
 
-#ifdef HAVE_GIO_UNIX
-#include <gio/gdesktopappinfo.h>
-#endif
-
 #include <thunar/thunar-private.h>
 #include <thunar/thunar-sendto-model.h>
+
+#ifdef HAVE_GIO_UNIX
+#include "gdesktopappinfo_wrapper.h"
+#endif
 
 
 

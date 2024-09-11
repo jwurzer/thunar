@@ -29,9 +29,6 @@
 #endif
 
 #include <glib/gstdio.h>
-#ifdef HAVE_GIO_UNIX
-#include <gio/gdesktopappinfo.h>
-#endif
 
 #include <xfconf/xfconf.h>
 
@@ -43,6 +40,15 @@
 #include <thunar/thunar-preferences.h>
 
 
+__attribute__((visibility("default"))) void *_g_desktop_app_info_new(const char *desktop_id)
+{
+        g_warning("call dummy impl of g_desktop_app_info_new(const char *desktop_id) for %s", desktop_id);
+        return NULL;
+}
+
+#ifdef HAVE_GIO_UNIX
+#include "gdesktopappinfo_wrapper.h"
+#endif
 
 int
 main (int argc, char **argv)
