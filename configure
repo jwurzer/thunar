@@ -15161,9 +15161,9 @@ fi
 
 
 
-  if test x"$no_x" = x"yes"; then
-    as_fn_error $? "X Window system libraries and header files are required" "$LINENO" 5
-  fi
+#  if test x"$no_x" = x"yes"; then
+#    as_fn_error $? "X Window system libraries and header files are required" "$LINENO" 5
+#  fi
 
 
 
@@ -17551,61 +17551,61 @@ fi
       fi
 
 
-
-  { $as_echo "$as_me:${as_lineno-$LINENO}: checking for libxfce4kbd-private-3 >= 4.12.0" >&5
-$as_echo_n "checking for libxfce4kbd-private-3 >= 4.12.0... " >&6; }
-  if $PKG_CONFIG "--atleast-version=4.12.0" "libxfce4kbd-private-3" >/dev/null 2>&1; then
-    LIBXFCE4KBD_PRIVATE_VERSION=`$PKG_CONFIG --modversion "libxfce4kbd-private-3"`
-    { $as_echo "$as_me:${as_lineno-$LINENO}: result: $LIBXFCE4KBD_PRIVATE_VERSION" >&5
-$as_echo "$LIBXFCE4KBD_PRIVATE_VERSION" >&6; }
-
-    { $as_echo "$as_me:${as_lineno-$LINENO}: checking LIBXFCE4KBD_PRIVATE_CFLAGS" >&5
-$as_echo_n "checking LIBXFCE4KBD_PRIVATE_CFLAGS... " >&6; }
-    LIBXFCE4KBD_PRIVATE_CFLAGS=`$PKG_CONFIG --cflags "libxfce4kbd-private-3"`
-    { $as_echo "$as_me:${as_lineno-$LINENO}: result: $LIBXFCE4KBD_PRIVATE_CFLAGS" >&5
-$as_echo "$LIBXFCE4KBD_PRIVATE_CFLAGS" >&6; }
-
-    { $as_echo "$as_me:${as_lineno-$LINENO}: checking LIBXFCE4KBD_PRIVATE_LIBS" >&5
-$as_echo_n "checking LIBXFCE4KBD_PRIVATE_LIBS... " >&6; }
-    LIBXFCE4KBD_PRIVATE_LIBS=`$PKG_CONFIG --libs "libxfce4kbd-private-3"`
-    { $as_echo "$as_me:${as_lineno-$LINENO}: result: $LIBXFCE4KBD_PRIVATE_LIBS" >&5
-$as_echo "$LIBXFCE4KBD_PRIVATE_LIBS" >&6; }
-
-    LIBXFCE4KBD_PRIVATE_REQUIRED_VERSION=4.12.0
-
-
-
-
-
-
-
-  elif $PKG_CONFIG --exists "libxfce4kbd-private-3" >/dev/null 2>&1; then
-    xdt_cv_version=`$PKG_CONFIG --modversion "libxfce4kbd-private-3"`
-    { $as_echo "$as_me:${as_lineno-$LINENO}: result: found, but $xdt_cv_version" >&5
-$as_echo "found, but $xdt_cv_version" >&6; }
-
-
-      echo "*** The required package libxfce4kbd-private-3 was found on your system,"
-      echo "*** but the installed version ($xdt_cv_version) is too old."
-      echo "*** Please upgrade libxfce4kbd-private-3 to atleast version 4.12.0, or adjust"
-      echo "*** the PKG_CONFIG_PATH environment variable if you installed"
-      echo "*** the new version of the package in a nonstandard prefix so"
-      echo "*** pkg-config is able to find it."
-      exit 1
-
-  else
-    { $as_echo "$as_me:${as_lineno-$LINENO}: result: not found" >&5
-$as_echo "not found" >&6; }
-
-
-      echo "*** The required package libxfce4kbd-private-3 was not found on your system."
-      echo "*** Please install libxfce4kbd-private-3 (atleast version 4.12.0) or adjust"
-      echo "*** the PKG_CONFIG_PATH environment variable if you"
-      echo "*** installed the package in a nonstandard prefix so that"
-      echo "*** pkg-config is able to find it."
-      exit 1
-
-  fi
+# TODO: maybe should be not removed???
+#  { $as_echo "$as_me:${as_lineno-$LINENO}: checking for libxfce4kbd-private-3 >= 4.12.0" >&5
+#$as_echo_n "checking for libxfce4kbd-private-3 >= 4.12.0... " >&6; }
+#  if $PKG_CONFIG "--atleast-version=4.12.0" "libxfce4kbd-private-3" >/dev/null 2>&1; then
+#    LIBXFCE4KBD_PRIVATE_VERSION=`$PKG_CONFIG --modversion "libxfce4kbd-private-3"`
+#    { $as_echo "$as_me:${as_lineno-$LINENO}: result: $LIBXFCE4KBD_PRIVATE_VERSION" >&5
+#$as_echo "$LIBXFCE4KBD_PRIVATE_VERSION" >&6; }
+#
+#    { $as_echo "$as_me:${as_lineno-$LINENO}: checking LIBXFCE4KBD_PRIVATE_CFLAGS" >&5
+#$as_echo_n "checking LIBXFCE4KBD_PRIVATE_CFLAGS... " >&6; }
+#    LIBXFCE4KBD_PRIVATE_CFLAGS=`$PKG_CONFIG --cflags "libxfce4kbd-private-3"`
+#    { $as_echo "$as_me:${as_lineno-$LINENO}: result: $LIBXFCE4KBD_PRIVATE_CFLAGS" >&5
+#$as_echo "$LIBXFCE4KBD_PRIVATE_CFLAGS" >&6; }
+#
+#    { $as_echo "$as_me:${as_lineno-$LINENO}: checking LIBXFCE4KBD_PRIVATE_LIBS" >&5
+#$as_echo_n "checking LIBXFCE4KBD_PRIVATE_LIBS... " >&6; }
+#    LIBXFCE4KBD_PRIVATE_LIBS=`$PKG_CONFIG --libs "libxfce4kbd-private-3"`
+#    { $as_echo "$as_me:${as_lineno-$LINENO}: result: $LIBXFCE4KBD_PRIVATE_LIBS" >&5
+#$as_echo "$LIBXFCE4KBD_PRIVATE_LIBS" >&6; }
+#
+#    LIBXFCE4KBD_PRIVATE_REQUIRED_VERSION=4.12.0
+#
+#
+#
+#
+#
+#
+#
+#  elif $PKG_CONFIG --exists "libxfce4kbd-private-3" >/dev/null 2>&1; then
+#    xdt_cv_version=`$PKG_CONFIG --modversion "libxfce4kbd-private-3"`
+#    { $as_echo "$as_me:${as_lineno-$LINENO}: result: found, but $xdt_cv_version" >&5
+#$as_echo "found, but $xdt_cv_version" >&6; }
+#
+#
+#      echo "*** The required package libxfce4kbd-private-3 was found on your system,"
+#      echo "*** but the installed version ($xdt_cv_version) is too old."
+#      echo "*** Please upgrade libxfce4kbd-private-3 to atleast version 4.12.0, or adjust"
+#      echo "*** the PKG_CONFIG_PATH environment variable if you installed"
+#      echo "*** the new version of the package in a nonstandard prefix so"
+#      echo "*** pkg-config is able to find it."
+#      exit 1
+#
+#  else
+#    { $as_echo "$as_me:${as_lineno-$LINENO}: result: not found" >&5
+#$as_echo "not found" >&6; }
+#
+#
+#      echo "*** The required package libxfce4kbd-private-3 was not found on your system."
+#      echo "*** Please install libxfce4kbd-private-3 (atleast version 4.12.0) or adjust"
+#      echo "*** the PKG_CONFIG_PATH environment variable if you"
+#      echo "*** installed the package in a nonstandard prefix so that"
+#      echo "*** pkg-config is able to find it."
+#      exit 1
+#
+#  fi
 
 
 
@@ -17747,60 +17747,60 @@ fi
 
 
 
-  { $as_echo "$as_me:${as_lineno-$LINENO}: checking for libxfconf-0 >= 4.12.0" >&5
-$as_echo_n "checking for libxfconf-0 >= 4.12.0... " >&6; }
-  if $PKG_CONFIG "--atleast-version=4.12.0" "libxfconf-0" >/dev/null 2>&1; then
-    XFCONF_VERSION=`$PKG_CONFIG --modversion "libxfconf-0"`
-    { $as_echo "$as_me:${as_lineno-$LINENO}: result: $XFCONF_VERSION" >&5
-$as_echo "$XFCONF_VERSION" >&6; }
-
-    { $as_echo "$as_me:${as_lineno-$LINENO}: checking XFCONF_CFLAGS" >&5
-$as_echo_n "checking XFCONF_CFLAGS... " >&6; }
-    XFCONF_CFLAGS=`$PKG_CONFIG --cflags "libxfconf-0"`
-    { $as_echo "$as_me:${as_lineno-$LINENO}: result: $XFCONF_CFLAGS" >&5
-$as_echo "$XFCONF_CFLAGS" >&6; }
-
-    { $as_echo "$as_me:${as_lineno-$LINENO}: checking XFCONF_LIBS" >&5
-$as_echo_n "checking XFCONF_LIBS... " >&6; }
-    XFCONF_LIBS=`$PKG_CONFIG --libs "libxfconf-0"`
-    { $as_echo "$as_me:${as_lineno-$LINENO}: result: $XFCONF_LIBS" >&5
-$as_echo "$XFCONF_LIBS" >&6; }
-
-    XFCONF_REQUIRED_VERSION=4.12.0
-
-
-
-
-
-
-
-  elif $PKG_CONFIG --exists "libxfconf-0" >/dev/null 2>&1; then
-    xdt_cv_version=`$PKG_CONFIG --modversion "libxfconf-0"`
-    { $as_echo "$as_me:${as_lineno-$LINENO}: result: found, but $xdt_cv_version" >&5
-$as_echo "found, but $xdt_cv_version" >&6; }
-
-
-      echo "*** The required package libxfconf-0 was found on your system,"
-      echo "*** but the installed version ($xdt_cv_version) is too old."
-      echo "*** Please upgrade libxfconf-0 to atleast version 4.12.0, or adjust"
-      echo "*** the PKG_CONFIG_PATH environment variable if you installed"
-      echo "*** the new version of the package in a nonstandard prefix so"
-      echo "*** pkg-config is able to find it."
-      exit 1
-
-  else
-    { $as_echo "$as_me:${as_lineno-$LINENO}: result: not found" >&5
-$as_echo "not found" >&6; }
-
-
-      echo "*** The required package libxfconf-0 was not found on your system."
-      echo "*** Please install libxfconf-0 (atleast version 4.12.0) or adjust"
-      echo "*** the PKG_CONFIG_PATH environment variable if you"
-      echo "*** installed the package in a nonstandard prefix so that"
-      echo "*** pkg-config is able to find it."
-      exit 1
-
-  fi
+#  { $as_echo "$as_me:${as_lineno-$LINENO}: checking for libxfconf-0 >= 4.12.0" >&5
+#$as_echo_n "checking for libxfconf-0 >= 4.12.0... " >&6; }
+#  if $PKG_CONFIG "--atleast-version=4.12.0" "libxfconf-0" >/dev/null 2>&1; then
+#    XFCONF_VERSION=`$PKG_CONFIG --modversion "libxfconf-0"`
+#    { $as_echo "$as_me:${as_lineno-$LINENO}: result: $XFCONF_VERSION" >&5
+#$as_echo "$XFCONF_VERSION" >&6; }
+#
+#    { $as_echo "$as_me:${as_lineno-$LINENO}: checking XFCONF_CFLAGS" >&5
+#$as_echo_n "checking XFCONF_CFLAGS... " >&6; }
+#    XFCONF_CFLAGS=`$PKG_CONFIG --cflags "libxfconf-0"`
+#    { $as_echo "$as_me:${as_lineno-$LINENO}: result: $XFCONF_CFLAGS" >&5
+#$as_echo "$XFCONF_CFLAGS" >&6; }
+#
+#    { $as_echo "$as_me:${as_lineno-$LINENO}: checking XFCONF_LIBS" >&5
+#$as_echo_n "checking XFCONF_LIBS... " >&6; }
+#    XFCONF_LIBS=`$PKG_CONFIG --libs "libxfconf-0"`
+#    { $as_echo "$as_me:${as_lineno-$LINENO}: result: $XFCONF_LIBS" >&5
+#$as_echo "$XFCONF_LIBS" >&6; }
+#
+#    XFCONF_REQUIRED_VERSION=4.12.0
+#
+#
+#
+#
+#
+#
+#
+#  elif $PKG_CONFIG --exists "libxfconf-0" >/dev/null 2>&1; then
+#    xdt_cv_version=`$PKG_CONFIG --modversion "libxfconf-0"`
+#    { $as_echo "$as_me:${as_lineno-$LINENO}: result: found, but $xdt_cv_version" >&5
+#$as_echo "found, but $xdt_cv_version" >&6; }
+#
+#
+#      echo "*** The required package libxfconf-0 was found on your system,"
+#      echo "*** but the installed version ($xdt_cv_version) is too old."
+#      echo "*** Please upgrade libxfconf-0 to atleast version 4.12.0, or adjust"
+#      echo "*** the PKG_CONFIG_PATH environment variable if you installed"
+#      echo "*** the new version of the package in a nonstandard prefix so"
+#      echo "*** pkg-config is able to find it."
+#      exit 1
+#
+#  else
+#    { $as_echo "$as_me:${as_lineno-$LINENO}: result: not found" >&5
+#$as_echo "not found" >&6; }
+#
+#
+#      echo "*** The required package libxfconf-0 was not found on your system."
+#      echo "*** Please install libxfconf-0 (atleast version 4.12.0) or adjust"
+#      echo "*** the PKG_CONFIG_PATH environment variable if you"
+#      echo "*** installed the package in a nonstandard prefix so that"
+#      echo "*** pkg-config is able to find it."
+#      exit 1
+#
+#  fi
 
 
 
