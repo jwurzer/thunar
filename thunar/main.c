@@ -66,8 +66,11 @@ main (int argc, char **argv)
   /* initialize xfconf */
   if (!xfconf_init (&error))
     {
-      g_printerr (PACKAGE_NAME ": Failed to initialize Xfconf: %s\n\n", error->message);
-      g_clear_error (&error);
+      g_printerr (PACKAGE_NAME ": Failed to initialize Xfconf: %s\n\n", error ? error->message : "(err null)");
+      if (error)
+        {
+          g_clear_error (&error);
+        }
 
       /* disable get/set properties */
       thunar_preferences_xfconf_init_failed ();
