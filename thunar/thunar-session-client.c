@@ -172,8 +172,10 @@ thunar_session_client_connect (ThunarSessionClient *session_client,
   if (G_UNLIKELY (session_client->connection == NULL))
     return FALSE;
 
+#ifdef HAVE_X11
   /* tell GDK about our new session id */
   gdk_x11_set_sm_client_id (id);
+#endif
 
   /* remember the returned client id */
   session_client->id = id;
