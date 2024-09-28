@@ -29,11 +29,8 @@
 #endif
 
 #include <glib/gstdio.h>
-#ifdef HAVE_GIO_UNIX
-#include <gio/gdesktopappinfo.h>
-#endif
 
-#include <xfconf/xfconf.h>
+#include "xfconf_wrapper.h"
 
 #include <thunar/thunar-application.h>
 #include <thunar/thunar-gobject-extensions.h>
@@ -42,6 +39,9 @@
 #include <thunar/thunar-session-client.h>
 #include <thunar/thunar-preferences.h>
 
+#ifdef HAVE_GIO_UNIX
+#include "gdesktopappinfo_wrapper.h"
+#endif
 
 
 int

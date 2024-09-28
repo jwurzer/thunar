@@ -31,7 +31,11 @@
 #endif
 
 #include <exo/exo.h>
+#ifdef HAVE_XFCE4_KBD_PRIVATE
 #include <libxfce4kbd-private/xfce-shortcut-dialog.h>
+#else
+typedef struct _XfceShortcutDialog XfceShortcutDialog;
+#endif
 #include <libxfce4ui/libxfce4ui.h>
 
 #include <thunar-uca/thunar-uca-editor.h>
@@ -321,7 +325,11 @@ thunar_uca_editor_validate_shortcut (XfceShortcutDialog  *dialog,
   ShortcutInfo    info;
   gchar          *command, *message;
 
+#ifdef HAVE_XFCE4_KBD_PRIVATE
   g_return_val_if_fail (XFCE_IS_SHORTCUT_DIALOG (dialog), FALSE);
+#else
+  g_warning("TODO: g_return_val_if_fail (XFCE_IS_SHORTCUT_DIALOG (dialog), FALSE);");
+#endif
   g_return_val_if_fail (shortcut != NULL, FALSE);
 
   /* Ignore empty shortcuts */
@@ -367,6 +375,7 @@ thunar_uca_editor_validate_shortcut (XfceShortcutDialog  *dialog,
 static void
 thunar_uca_editor_shortcut_clicked (ThunarUcaEditor *uca_editor)
 {
+#if 0
   GtkWidget       *dialog;
   gint             response;
   const gchar     *shortcut;
@@ -399,6 +408,8 @@ thunar_uca_editor_shortcut_clicked (ThunarUcaEditor *uca_editor)
     }
 
   gtk_widget_destroy (dialog);
+#endif
+  g_warning("TODO: thunar_uca_editor_shortcut_clicked (ThunarUcaEditor *uca_editor)");
 }
 
 

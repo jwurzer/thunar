@@ -37,7 +37,9 @@
 #endif
 
 #include <glib/gstdio.h>
+#ifdef HAVE_X11
 #include <gdk/gdkx.h>
+#endif
 
 #include <thunar/thunar-application.h>
 #include <thunar/thunar-ice.h>

@@ -43,7 +43,7 @@
 #include <thunar/thunar-gobject-extensions.h>
 #include <thunar/thunar-preferences.h>
 #include <thunar/thunar-private.h>
-#include <xfconf/xfconf.h>
+#include "xfconf_wrapper.h"
 
 
 /* Property identifiers */

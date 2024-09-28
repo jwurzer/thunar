@@ -26,7 +26,7 @@
 
 #ifdef HAVE_GIO_UNIX
 #include <gio/gunixmounts.h>
-#include <gio/gdesktopappinfo.h>
+#include "gdesktopappinfo_wrapper.h"
 #endif
 
 #include <exo/exo.h>
