@@ -41,6 +41,7 @@ thunar_SOURCES =							\
 	$(thunar_built_sources)						\
 	$(thunar_dbus_sources)						\
 	main.c								\
+	xfconf_wrapper.c						\
 	thunar-abstract-dialog.c					\
 	thunar-abstract-dialog.h					\
 	thunar-abstract-icon-view.c					\

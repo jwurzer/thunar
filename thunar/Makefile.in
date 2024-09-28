@@ -129,6 +129,7 @@ am__objects_1 = thunar-thunar-marshal.$(OBJEXT) \
 	thunar-thunar-thumbnail-cache-proxy.$(OBJEXT) \
 	thunar-thunar-resources.$(OBJEXT)
 am_thunar_OBJECTS = $(am__objects_1) thunar-main.$(OBJEXT) \
+	thunar-xfconf_wrapper.$(OBJEXT) \
 	thunar-thunar-abstract-dialog.$(OBJEXT) \
 	thunar-thunar-abstract-icon-view.$(OBJEXT) \
 	thunar-thunar-application.$(OBJEXT) \
@@ -256,6 +257,7 @@ DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__maybe_remake_depfiles = depfiles
 am__depfiles_remade = ./$(DEPDIR)/thunar-main.Po \
+	./$(DEPDIR)/thunar-xfconf_wrapper.Po \
 	./$(DEPDIR)/thunar-thunar-abstract-dialog.Po \
 	./$(DEPDIR)/thunar-thunar-abstract-icon-view.Po \
 	./$(DEPDIR)/thunar-thunar-application.Po \
@@ -677,6 +679,7 @@ thunar_SOURCES = \
 	$(thunar_built_sources)						\
 	$(thunar_dbus_sources)						\
 	main.c								\
+	xfconf_wrapper.c						\
 	thunar-abstract-dialog.c					\
 	thunar-abstract-dialog.h					\
 	thunar-abstract-icon-view.c					\
@@ -1006,6 +1009,7 @@ distclean-compile:
 	-rm -f *.tab.c
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/thunar-main.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/thunar-xfconf_wrapper.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/thunar-thunar-abstract-dialog.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/thunar-thunar-abstract-icon-view.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/thunar-thunar-application.Po@am__quote@ # am--include-marker
@@ -1217,6 +1221,20 @@ thunar-main.obj: main.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='main.c' object='thunar-main.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(thunar_CFLAGS) $(CFLAGS) -c -o thunar-main.obj `if test -f 'main.c'; then $(CYGPATH_W) 'main.c'; else $(CYGPATH_W) '$(srcdir)/main.c'; fi`
+
+thunar-xfconf_wrapper.o: xfconf_wrapper.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(thunar_CFLAGS) $(CFLAGS) -MT thunar-xfconf_wrapper.o -MD -MP -MF $(DEPDIR)/thunar-xfconf_wrapper.Tpo -c -o thunar-xfconf_wrapper.o `test -f 'xfconf_wrapper.c' || echo '$(srcdir)/'`xfconf_wrapper.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/thunar-xfconf_wrapper.Tpo $(DEPDIR)/thunar-xfconf_wrapper.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='xfconf_wrapper.c' object='thunar-xfconf_wrapper.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(thunar_CFLAGS) $(CFLAGS) -c -o thunar-xfconf_wrapper.o `test -f 'xfconf_wrapper.c' || echo '$(srcdir)/'`xfconf_wrapper.c
+
+thunar-xfconf_wrapper.obj: xfconf_wrapper.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(thunar_CFLAGS) $(CFLAGS) -MT thunar-xfconf_wrapper.obj -MD -MP -MF $(DEPDIR)/thunar-xfconf_wrapper.Tpo -c -o thunar-xfconf_wrapper.obj `if test -f 'xfconf_wrapper.c'; then $(CYGPATH_W) 'xfconf_wrapper.c'; else $(CYGPATH_W) '$(srcdir)/xfconf_wrapper.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/thunar-xfconf_wrapper.Tpo $(DEPDIR)/thunar-xfconf_wrapper.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='xfconf_wrapper.c' object='thunar-xfconf_wrapper.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(thunar_CFLAGS) $(CFLAGS) -c -o thunar-xfconf_wrapper.obj `if test -f 'xfconf_wrapper.c'; then $(CYGPATH_W) 'xfconf_wrapper.c'; else $(CYGPATH_W) '$(srcdir)/xfconf_wrapper.c'; fi`
 
 thunar-thunar-abstract-dialog.o: thunar-abstract-dialog.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(thunar_CFLAGS) $(CFLAGS) -MT thunar-thunar-abstract-dialog.o -MD -MP -MF $(DEPDIR)/thunar-thunar-abstract-dialog.Tpo -c -o thunar-thunar-abstract-dialog.o `test -f 'thunar-abstract-dialog.c' || echo '$(srcdir)/'`thunar-abstract-dialog.c
@@ -2499,6 +2517,7 @@ clean-am: clean-binPROGRAMS clean-generic clean-libtool clean-local \
 
 distclean: distclean-am
 		-rm -f ./$(DEPDIR)/thunar-main.Po
+	-rm -f ./$(DEPDIR)/thunar-xfconf_wrapper.Po
 	-rm -f ./$(DEPDIR)/thunar-thunar-abstract-dialog.Po
 	-rm -f ./$(DEPDIR)/thunar-thunar-abstract-icon-view.Po
 	-rm -f ./$(DEPDIR)/thunar-thunar-application.Po
@@ -2632,6 +2651,7 @@ installcheck-am:
 
 maintainer-clean: maintainer-clean-am
 		-rm -f ./$(DEPDIR)/thunar-main.Po
+	-rm -f ./$(DEPDIR)/thunar-xfconf_wrapper.Po
 	-rm -f ./$(DEPDIR)/thunar-thunar-abstract-dialog.Po
 	-rm -f ./$(DEPDIR)/thunar-thunar-abstract-icon-view.Po
 	-rm -f ./$(DEPDIR)/thunar-thunar-application.Po
