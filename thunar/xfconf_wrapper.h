@@ -17,8 +17,7 @@ typedef struct _XfconfChannel XfconfChannel;
 // from xfconf.h
 
 gboolean xfconf_init(GError **error);
-// TODO: maybe thunar should call xfconf_shutdown()?
-//void xfconf_shutdown(void);
+void xfconf_shutdown(void);
 
 // from xfconf-channel.h
 

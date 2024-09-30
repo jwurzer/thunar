@@ -65,9 +65,11 @@ static gboolean priv_xfconf_add_channel(XfconfChannel *channel);
 //       has a null pointer for next.
 static void priv_xfconf_free_channel(XfconfChannel **channel);
 
+static void priv_xfconf_print_all_channels();
 
 // --- functions for properties ---
 
+// create new one if it doesn't exist
 static XfconfProperty *priv_xfconf_get_property(XfconfChannel* channel, const gchar *property_name);
 
 static XfconfProperty *priv_xfconf_new_property(const gchar *property_name);
@@ -83,13 +85,15 @@ static gboolean priv_xfconf_add_property(XfconfChannel *channel, XfconfProperty 
 //       free it after this function.
 static void priv_xfconf_free_property(XfconfProperty **property);
 
+static void priv_xfconf_print_all_properties(XfconfChannel *channel);
+
 // --- functions for value ---
 
 // create a new if necessary or otherwise update it
 static gboolean priv_xfconf_set_property_value(XfconfProperty *property, const GValue* value);
 
 // modified versions from xfconf/xfconf-cache.c
-static void priv_xfconf_cache_item_new(XfconfProperty* item, const GValue *value, gboolean steal);
+//static void priv_xfconf_cache_item_new(XfconfProperty* item, const GValue *value, gboolean steal);
 static gboolean priv_xfconf_cache_item_update(XfconfProperty *item, const GValue *value);
 static void priv_xfconf_cache_item_free(XfconfProperty *item);
 
@@ -117,17 +121,15 @@ static void xfconf_g_value_set_int16(GValue *value,
 
 gboolean xfconf_init(GError **error)
 {
-	g_warning("TODO: xfconf_init()");
+	g_warning("xfconf_init() - nothing to do. all is fine ;-)");
 	return TRUE;
 }
 
-// TODO: maybe thunar should call xfconf_shutdown()?
-#if 0 // currently not necessary to implement
 void xfconf_shutdown(void)
 {
-	g_warning("TODO: xfconf_shutdown()");
+	g_warning("xfconf_shutdown() - config will be printed now:");
+	priv_xfconf_print_all_channels();
 }
-#endif
 
 XfconfChannel *xfconf_channel_get(const gchar *channel_name)
 {
@@ -212,7 +214,7 @@ gboolean xfconf_channel_has_property(XfconfChannel *channel,
 	}
 	// return null if not found
 	has_property = (priv_xfconf_find_property(channel, property) != NULL);
-	g_warning("xfconf_channel_has_property() for '%s' '%s': %s", channel->channel_name, property, has_property ? "true" : "false");
+	//g_warning("xfconf_channel_has_property() for '%s' '%s': %s", channel->channel_name, property, has_property ? "true" : "false");
 	return has_property;
 }
 
@@ -230,6 +232,7 @@ gboolean xfconf_channel_get_property(XfconfChannel *channel,
 	XfconfProperty *property = NULL;
 	GValue val1 = G_VALUE_INIT;
 	gboolean ret = FALSE;
+	gchar *str_val;
 
 	if (!channel) {
 		g_warning("null ptr for channel (get property)");
@@ -241,14 +244,16 @@ gboolean xfconf_channel_get_property(XfconfChannel *channel,
 	}
 	property = priv_xfconf_find_property(channel, property_name);
 	if (!property) {
-		g_warning("xfconf_channel_get_property() for '%s' '%s' failed. property not exist",
-				channel->channel_name, property_name);
+		//g_warning("xfconf_channel_get_property() for '%s' '%s' failed. property not exist",
+		//		channel->channel_name, property_name);
 		return FALSE;
 	}
 
 	if (property->value) {
+		g_value_init(&val1, G_VALUE_TYPE(property->value));
+		g_value_copy(property->value, &val1);
+		//g_value_unset(&val1); // DON'T UNSET HERE! this is done at the end of the function!
 		ret = TRUE;
-		val1 = *property->value;
 	}
 
     //ret = xfconf_channel_get_internal(channel, property_name, &val1);
@@ -298,7 +303,13 @@ gboolean xfconf_channel_get_property(XfconfChannel *channel,
         g_value_unset(&val1);
     }
 
+#if 1
+    str_val = g_strdup_value_contents(value);
+    g_warning("xfconf_channel_get_property() for '%s' '%s' = '%s': %s", channel->channel_name, property_name, str_val, (property && ret) ? "true" : "false");
+    free(str_val);
+#else
     g_warning("xfconf_channel_get_property() for '%s' '%s': %s", channel->channel_name, property_name, (property && ret) ? "true" : "false");
+#endif
     return ret;
 }
 
@@ -332,14 +343,13 @@ gboolean xfconf_channel_set_property(XfconfChannel *channel,
 	g_value_init(&val, G_VALUE_TYPE(value));
 	g_value_copy(value, &val);
 	ret = priv_xfconf_set_property_value(property, &val);
-	//ret = FALSE;
 	g_value_unset(&val);
-	//ret = priv_xfconf_set_property_value(property, value);
 
-	//str_val = g_strdup_value_contents(value);
-	//g_print ("gvalue: %s\n", str_val);
-	//g_warning("xfconf_channel_set_property() %s %s %s: rv %s", channel->channel_name, property_name, str_val, ret ? "true" : "false");
-	//free(str_val);
+#if 1
+	str_val = g_strdup_value_contents(value);
+	g_warning("xfconf_channel_set_property() %s %s %s: rv %s", channel->channel_name, property_name, str_val, ret ? "true" : "false");
+	free(str_val);
+#endif
 	return ret;
 }
 
@@ -435,6 +445,15 @@ static void priv_xfconf_free_channel(XfconfChannel **channel)
 	*channel = NULL;
 }
 
+static void priv_xfconf_print_all_channels()
+{
+	int i = 0;
+	for (XfconfChannel* cur = first; cur; cur = cur->next, ++i) {
+		g_print("*** Channel '%s' at index position %d ***\n", cur->channel_name, i);
+		priv_xfconf_print_all_properties(cur);
+	}
+}
+
 // --- functions for properties ---
 
 static XfconfProperty *priv_xfconf_get_property(XfconfChannel* channel, const gchar *property_name)
@@ -463,7 +482,7 @@ static XfconfProperty *priv_xfconf_get_property(XfconfChannel* channel, const gc
 		priv_xfconf_free_property(&property);
 		return NULL;
 	}
-	g_warning("Create new property '%s' for channel '%s'. (get property)", property_name, channel->channel_name);
+	//g_warning("Create new property '%s' for channel '%s'. (get property)", property_name, channel->channel_name);
 	return property;
 }
 
@@ -500,7 +519,7 @@ static XfconfProperty *priv_xfconf_find_property(XfconfChannel *channel, const g
 			return cur;
 		}
 	}
-	g_warning("Can't find property '%s' for channel '%s'", property_name, channel->channel_name);
+	//g_warning("Can't find property '%s' for channel '%s'", property_name, channel->channel_name);
 	return NULL;
 }
 
@@ -518,12 +537,12 @@ static gboolean priv_xfconf_add_property(XfconfChannel *channel, XfconfProperty 
 	}
 	for (cur = &channel->first_property; *cur; cur = &(*cur)->next, ++i) {
 		if ((*cur)->property_name && strcmp((*cur)->property_name, property->property_name) == 0) {
-			g_warning("Can't add property to list. Channel '%s' already exist (add property)", property->property_name);
+			g_warning("Can't add property to list. Property '%s' already exist (add property)", property->property_name);
 			return FALSE;
 		}
 	}
 	*cur = property;
-	g_warning("Add property '%s' to list at index position %d (add property)", property->property_name, i);
+	//g_warning("Add property '%s' to list at index position %d (add property)", property->property_name, i);
 	return TRUE;
 }
 
@@ -548,6 +567,21 @@ static void priv_xfconf_free_property(XfconfProperty **property)
 	*property = NULL;
 }
 
+static void priv_xfconf_print_all_properties(XfconfChannel *channel)
+{
+	int i = 0;
+	gchar *str_val;
+	if (!channel) {
+		g_warning("channel is null (print all properties)");
+		return;
+	}
+	for (XfconfProperty *cur = channel->first_property; cur; cur = cur->next, ++i) {
+		str_val = g_strdup_value_contents(cur->value);
+		g_print("%d: '%s' '%s' = %s\n", i, channel->channel_name, cur->property_name, cur->value ? str_val : "(null ptr for value)");
+		free(str_val);
+	}
+}
+
 static gboolean priv_xfconf_set_property_value(XfconfProperty *property, const GValue* value)
 {
 	gboolean rv = TRUE;
@@ -564,6 +598,7 @@ static gboolean priv_xfconf_set_property_value(XfconfProperty *property, const G
 		}
 		else {
 			// --> not available --> create a new one
+			// DON'T USE THIS VERSION is simply copies the value
 			priv_xfconf_cache_item_new(property, value, FALSE);
 		}
 #else
@@ -579,6 +614,7 @@ static gboolean priv_xfconf_set_property_value(XfconfProperty *property, const G
 	return rv;
 }
 
+#if 0 // currently not used
 static void priv_xfconf_cache_item_new(XfconfProperty* item, const GValue *value, gboolean steal)
 {
 	if (G_LIKELY(steal) || value == NULL) {
@@ -596,6 +632,7 @@ static void priv_xfconf_cache_item_new(XfconfProperty* item, const GValue *value
 		}
 	}
 }
+#endif
 
 static gboolean priv_xfconf_cache_item_update(XfconfProperty *item, const GValue *value)
 {
@@ -614,11 +651,9 @@ static gboolean priv_xfconf_cache_item_update(XfconfProperty *item, const GValue
 
 		/* We need to dup the array */
 		if (G_VALUE_TYPE(value) == G_TYPE_PTR_ARRAY) {
-			g_warning("*** array ***");
 			GPtrArray *arr = priv_xfconf_dup_value_array(g_value_get_boxed(value));
 			g_value_take_boxed(item->value, arr);
 		} else {
-			g_warning("*** normal copy ***");
 			g_value_copy(value, item->value);
 		}
 		return TRUE;

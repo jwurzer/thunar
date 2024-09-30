@@ -95,5 +95,7 @@ main (int argc, char **argv)
   thunar_notify_uninit ();
 #endif
 
+  xfconf_shutdown();
+
   return EXIT_SUCCESS;
 }
