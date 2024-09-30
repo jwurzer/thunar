@@ -121,7 +121,16 @@ static void xfconf_g_value_set_int16(GValue *value,
 
 gboolean xfconf_init(GError **error)
 {
-	g_warning("xfconf_init() - nothing to do. all is fine ;-)");
+	XfconfChannel *channel;
+	g_warning("xfconf_init()");
+	channel = xfconf_channel_get("thunar");
+	if (!channel) {
+		return TRUE;
+	}
+	xfconf_channel_set_string(channel, "/last-view", "ThunarCompactView");
+	xfconf_channel_set_string(channel, "/shortcuts-icon-size", "THUNAR_ICON_SIZE_16");
+	xfconf_channel_set_bool(channel, "/last-show-hidden", TRUE);
+	
 	return TRUE;
 }
 
@@ -197,10 +206,44 @@ gboolean xfconf_channel_set_string(XfconfChannel *channel,
 	return ret;
 }
 
+gboolean xfconf_channel_set_bool(XfconfChannel *channel,
+                                 const gchar *property_name,
+                                 gboolean value)
+{
+	XfconfProperty *property = NULL;
+	GValue val = G_VALUE_INIT;
+	gboolean ret;
+	
+	if (!channel) {
+		g_warning("null ptr for channel (set bool)");
+		return FALSE;
+	}
+	if (!property_name) {
+		g_warning("null ptr for property_name (set bool)");
+		return FALSE;
+	}
+	property = priv_xfconf_get_property(channel, property_name);
+	if (!property) {
+		g_warning("Can't get property (set bool)");
+		return FALSE;
+	}
+
+	g_value_init(&val, G_TYPE_BOOLEAN);
+	g_value_set_boolean(&val, value);
+
+	ret = priv_xfconf_set_property_value(property, &val);
+
+	g_value_unset(&val);
+
+	g_warning("Set bool: ch '%s', prop '%s', value '%s', rv %s (set bool)",
+		channel->channel_name, property_name, value ? "true" : "false", ret ? "true" : "false");
+	return ret;
+}
+
 gchar **xfconf_channel_get_string_list(XfconfChannel *channel,
                                        const gchar *property)
 {
-	g_warning("TODO: xfconf_channel_get_string_list()");
+	g_warning("TODO: xfconf_channel_get_string_list(): %s %s", channel->channel_name, property);
 	return NULL;
 }
 
@@ -222,7 +265,7 @@ void xfconf_channel_reset_property(XfconfChannel *channel,
                                    const gchar *property_base,
                                    gboolean recursive)
 {
-	g_warning("TODO: xfconf_channel_reset_property()");
+	g_warning("TODO: xfconf_channel_reset_property() %s %s", channel->channel_name, property_base);
 }
 
 gboolean xfconf_channel_get_property(XfconfChannel *channel,

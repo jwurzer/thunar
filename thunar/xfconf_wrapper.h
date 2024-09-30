@@ -25,6 +25,9 @@ XfconfChannel *xfconf_channel_get(const gchar *channel_name);
 gboolean xfconf_channel_set_string(XfconfChannel *channel,
                                    const gchar *property,
                                    const gchar *value);
+gboolean xfconf_channel_set_bool(XfconfChannel *channel,
+                                 const gchar *property,
+                                 gboolean value);
 gchar **xfconf_channel_get_string_list(XfconfChannel *channel,
                                        const gchar *property) G_GNUC_WARN_UNUSED_RESULT;
 gboolean xfconf_channel_has_property(XfconfChannel *channel,
