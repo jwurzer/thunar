@@ -8,9 +8,9 @@
 G_BEGIN_DECLS
 
 // from xfconf-channel.h
-#define XFCONF_TYPE_CHANNEL             (xfconf_channel_get_type())
-#define XFCONF_CHANNEL(obj)             (G_TYPE_CHECK_INSTANCE_CAST((obj), XFCONF_TYPE_CHANNEL, XfconfChannel))
-#define XFCONF_IS_CHANNEL(obj)          (G_TYPE_CHECK_INSTANCE_TYPE((obj), XFCONF_TYPE_CHANNEL))
+//#define XFCONF_TYPE_CHANNEL             (xfconf_channel_get_type())
+//#define XFCONF_CHANNEL(obj)             (G_TYPE_CHECK_INSTANCE_CAST((obj), XFCONF_TYPE_CHANNEL, XfconfChannel))
+//#define XFCONF_IS_CHANNEL(obj)          (G_TYPE_CHECK_INSTANCE_TYPE((obj), XFCONF_TYPE_CHANNEL))
 
 typedef struct _XfconfChannel XfconfChannel;
 
