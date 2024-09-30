@@ -159,7 +159,9 @@ gboolean xfconf_channel_set_string(XfconfChannel *channel,
 		property->str_value = calloc(param_str_len + 1, sizeof(gchar));
 	}
 	strcpy(property->str_value, value);
-	g_warning("Set string ok: ch '%s', prop '%s', value '%s' (set string)", channel->channel_name, property_name, value);
+	property->type = XFCONF_PROPERTY_STRING;
+	g_warning("Set string ok: ch '%s', prop '%s', value '%s' (set string)",
+		channel->channel_name, property_name, value);
 	return TRUE;
 }
 
@@ -200,11 +202,31 @@ gboolean xfconf_channel_get_property(XfconfChannel *channel,
 		g_warning("null ptr for channel (get property)");
 		return FALSE;
 	}
+	if (!value) {
+		g_warning("null ptr for value (get property)");
+		return FALSE;
+	}
 	property = priv_xfconf_find_property(channel, property_name);
+	if (!property) {
+		g_warning("xfconf_channel_get_property() for '%s' '%s' failed. property not exist",
+				channel->channel_name, property_name);
+		return FALSE;
+	}
+	switch (property->type) {
+		case XFCONF_PROPERTY_NONE:
+			g_warning("type \"NONE\" is not supported (get property)");
+			return FALSE;
+		case XFCONF_PROPERTY_STRING:
+			// TODO: or non static version?
+			//g_value_set_string(value, property->str_value);
+			g_value_set_static_string(value, property->str_value);
+			break;
+		case XFCONF_PROPERTY_TYPE_COUNT:
+			g_warning("type \"TYPE_COUNT\" is not supported (get property)");
+			return FALSE;
+	}
 	g_warning("xfconf_channel_get_property() for '%s' '%s': %s", channel->channel_name, property_name, property ? "true" : "false");
-	g_warning("TODO: xfconf_channel_get_property()");
-	//return property != NULL;
-	return FALSE;
+	return TRUE;
 }
 
 gboolean xfconf_channel_set_property(XfconfChannel *channel,
