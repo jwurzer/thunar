@@ -15,10 +15,12 @@ typedef enum _XfconfPropertyType XfconfPropertyType;
 typedef struct _XfconfProperty XfconfProperty;
 struct _XfconfProperty
 {
+	GObject parent;
+
 	const gchar *property_name;
 
 	XfconfPropertyType type;
-	gchar* strValue;
+	gchar* str_value;
 
 	// pointer to next property of the linked list
 	XfconfProperty *next;
@@ -27,6 +29,8 @@ struct _XfconfProperty
 
 struct _XfconfChannel
 {
+	GObject parent;
+
 	const gchar *channel_name;
 
 	// pointer to the start of the linked list of properties
@@ -123,6 +127,8 @@ gboolean xfconf_channel_set_string(XfconfChannel *channel,
                                    const gchar *value)
 {
 	XfconfProperty *property = NULL;
+	int prop_str_len = 0;
+	int param_str_len = 0;
 	
 	if (!channel) {
 		g_warning("null ptr for channel (set string)");
@@ -141,8 +147,20 @@ gboolean xfconf_channel_set_string(XfconfChannel *channel,
 		g_warning("Can't get property (set string)");
 		return FALSE;
 	}
-	g_warning("TODO: xfconf_channel_set_string() ch '%s', prop '%s', value '%s'", channel->channel_name, property_name, value);
-	return TRUE; // TODO only return true if saved...
+	if (property->type != XFCONF_PROPERTY_NONE &&
+			property->type != XFCONF_PROPERTY_STRING) {
+		g_warning("Wrong type. Set string failed: ch '%s', prop '%s', value '%s' (set string)", channel->channel_name, property_name, value);
+		return FALSE;
+	}
+	param_str_len = strlen(value);
+	prop_str_len = property->str_value ? strlen(property->str_value) : -1;
+	if (param_str_len != prop_str_len) {
+		free(property->str_value);
+		property->str_value = calloc(param_str_len + 1, sizeof(gchar));
+	}
+	strcpy(property->str_value, value);
+	g_warning("Set string ok: ch '%s', prop '%s', value '%s' (set string)", channel->channel_name, property_name, value);
+	return TRUE;
 }
 
 gchar **xfconf_channel_get_string_list(XfconfChannel *channel,
@@ -155,12 +173,15 @@ gchar **xfconf_channel_get_string_list(XfconfChannel *channel,
 gboolean xfconf_channel_has_property(XfconfChannel *channel,
                                      const gchar *property)
 {
+	gboolean has_property = FALSE;
 	if (!channel) {
 		g_warning("null ptr for channel (has_property)");
 		return FALSE;
 	}
-	g_warning("TODO: xfconf_channel_has_property(): '%s' '%s'", channel->channel_name, property);
-	return FALSE;
+	// return null if not found
+	has_property = (priv_xfconf_find_property(channel, property) != NULL);
+	g_warning("xfconf_channel_has_property() for '%s' '%s': %s", channel->channel_name, property, has_property ? "true" : "false");
+	return has_property;
 }
 
 void xfconf_channel_reset_property(XfconfChannel *channel,
@@ -171,10 +192,18 @@ void xfconf_channel_reset_property(XfconfChannel *channel,
 }
 
 gboolean xfconf_channel_get_property(XfconfChannel *channel,
-                                     const gchar *property,
+                                     const gchar *property_name,
                                      GValue *value)
 {
+	XfconfProperty *property = NULL;
+	if (!channel) {
+		g_warning("null ptr for channel (get property)");
+		return FALSE;
+	}
+	property = priv_xfconf_find_property(channel, property_name);
+	g_warning("xfconf_channel_get_property() for '%s' '%s': %s", channel->channel_name, property_name, property ? "true" : "false");
 	g_warning("TODO: xfconf_channel_get_property()");
+	//return property != NULL;
 	return FALSE;
 }
 
