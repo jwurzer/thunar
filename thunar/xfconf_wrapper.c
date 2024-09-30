@@ -329,17 +329,17 @@ gboolean xfconf_channel_set_property(XfconfChannel *channel,
 		return FALSE;
 	}
 
-	//g_value_init(&val, G_VALUE_TYPE(value));
-	//g_value_copy(value, &val);
-	//ret = priv_xfconf_set_property_value(property, &val);
-	//g_value_unset(&val);
-	ret = FALSE;
+	g_value_init(&val, G_VALUE_TYPE(value));
+	g_value_copy(value, &val);
+	ret = priv_xfconf_set_property_value(property, &val);
+	//ret = FALSE;
+	g_value_unset(&val);
 	//ret = priv_xfconf_set_property_value(property, value);
 
-	str_val = g_strdup_value_contents(value);
-	g_print ("gvalue: %s\n", str_val);
-	g_warning("xfconf_channel_set_property() %s %s %s: rv %s", channel->channel_name, property_name, str_val, ret ? "true" : "false");
-	free(str_val);
+	//str_val = g_strdup_value_contents(value);
+	//g_print ("gvalue: %s\n", str_val);
+	//g_warning("xfconf_channel_set_property() %s %s %s: rv %s", channel->channel_name, property_name, str_val, ret ? "true" : "false");
+	//free(str_val);
 	return ret;
 }
 
@@ -557,6 +557,7 @@ static gboolean priv_xfconf_set_property_value(XfconfProperty *property, const G
 	}
 	if (value) {
 		// value from parameter is available
+#if 0
 		if (property->value) {
 			// --> value available --> only update it
 			rv = priv_xfconf_cache_item_update(property, value);
@@ -565,6 +566,10 @@ static gboolean priv_xfconf_set_property_value(XfconfProperty *property, const G
 			// --> not available --> create a new one
 			priv_xfconf_cache_item_new(property, value, FALSE);
 		}
+#else
+		// always use update
+		rv = priv_xfconf_cache_item_update(property, value);
+#endif
 	}
 	else {
 		g_warning("free property because of null value (set property value)");
@@ -609,9 +614,11 @@ static gboolean priv_xfconf_cache_item_update(XfconfProperty *item, const GValue
 
 		/* We need to dup the array */
 		if (G_VALUE_TYPE(value) == G_TYPE_PTR_ARRAY) {
+			g_warning("*** array ***");
 			GPtrArray *arr = priv_xfconf_dup_value_array(g_value_get_boxed(value));
 			g_value_take_boxed(item->value, arr);
 		} else {
+			g_warning("*** normal copy ***");
 			g_value_copy(value, item->value);
 		}
 		return TRUE;
@@ -627,6 +634,7 @@ static void priv_xfconf_cache_item_free(XfconfProperty *item)
     if (item->value != NULL) {
         g_value_unset(item->value);
         g_free(item->value);
+	item->value = NULL;
     }
     //g_slice_free(XfconfCacheItem, item); // don't use this for this XfconfProperty implementation
 }

@@ -38,6 +38,9 @@
 #include <string.h>
 #endif
 
+// if xfconf_wrapper is used then signals are not supported
+//#define USE_SIGNAL_FOR_CHANNEL
+
 #include <thunar/thunar-enum-types.h>
 #include <thunar/thunar-gio-extensions.h>
 #include <thunar/thunar-gobject-extensions.h>
@@ -118,10 +121,12 @@ static void     thunar_preferences_set_property       (GObject                *o
                                                        guint                   prop_id,
                                                        const GValue           *value,
                                                        GParamSpec             *pspec);
+#ifdef USE_SIGNAL_FOR_CHANNEL
 static void     thunar_preferences_prop_changed       (XfconfChannel          *channel,
                                                        const gchar            *prop_name,
                                                        const GValue           *value,
                                                        ThunarPreferences      *preferences);
+#endif
 static void     thunar_preferences_load_rc_file       (ThunarPreferences      *preferences);
 
 
@@ -899,9 +904,11 @@ thunar_preferences_init (ThunarPreferences *preferences)
         xfconf_channel_set_string (preferences->channel, check_prop, "ThunarIconView");
     }
 
+#ifdef USE_SIGNAL_FOR_CHANNEL
   preferences->property_changed_id =
     g_signal_connect (G_OBJECT (preferences->channel), "property-changed",
                       G_CALLBACK (thunar_preferences_prop_changed), preferences);
+#endif
 }
 
 
@@ -909,10 +916,14 @@ thunar_preferences_init (ThunarPreferences *preferences)
 static void
 thunar_preferences_finalize (GObject *object)
 {
+#ifdef USE_SIGNAL_FOR_CHANNEL
   ThunarPreferences *preferences = THUNAR_PREFERENCES (object);
+#endif
 
   /* disconnect from the updates */
+#ifdef USE_SIGNAL_FOR_CHANNEL
   g_signal_handler_disconnect (preferences->channel, preferences->property_changed_id);
+#endif
 
   (*G_OBJECT_CLASS (thunar_preferences_parent_class)->finalize) (object);
 }
@@ -982,7 +993,9 @@ thunar_preferences_set_property (GObject      *object,
   g_snprintf (prop_name, sizeof (prop_name), "/%s", g_param_spec_get_name (pspec));
 
   /* freeze */
+#ifdef USE_SIGNAL_FOR_CHANNEL
   g_signal_handler_block (preferences->channel, preferences->property_changed_id);
+#endif
 
   if (G_VALUE_HOLDS_ENUM (value))
     {
@@ -1008,11 +1021,14 @@ thunar_preferences_set_property (GObject      *object,
     }
 
   /* thaw */
+#ifdef USE_SIGNAL_FOR_CHANNEL
   g_signal_handler_unblock (preferences->channel, preferences->property_changed_id);
+#endif
 }
 
 
 
+#ifdef USE_SIGNAL_FOR_CHANNEL
 static void
 thunar_preferences_prop_changed (XfconfChannel     *channel,
                                  const gchar       *prop_name,
@@ -1026,6 +1042,7 @@ thunar_preferences_prop_changed (XfconfChannel     *channel,
   if (G_LIKELY (pspec != NULL))
     g_object_notify_by_pspec (G_OBJECT (preferences), pspec);
 }
+#endif
 
 
 
